@@ -30,10 +30,13 @@ def entregarProducto(producto):
 
 def ingresarMoneda():
     valoresValidos = [str(valor) for valor in valoresMonedas]
-    moneda = input("Introduzca monedas de 2€, 1€, 0.50cts, 0.20cts, 0.10cts 8 0.05cts: ")
+    moneda = input("Introduzca monedas de 2€, 1€, 0.50€, 0.20€, 0.10€, 0.05€: ")
+
     while moneda not in valoresValidos:
         moneda = input("Introduzca una moneda válida: ")
-    return float(moneda)
+
+    return round(float(moneda), 2)
+
 
 def ingresarImporte(opcion):
     opcion = opcion - 1
@@ -63,16 +66,19 @@ def sumarMoneda(moneda):
         if valoresMonedas[i] == moneda:
             reservaMonedas[i] += 1
 
+
 def darCambio(resto):
     monedasDevueltas = []
+    restoActual = resto
+
     for i in range(len(valoresMonedas)):
         valor = valoresMonedas[i]
-        while resto >= valor and resto > 0 and reservaMonedas[i] > 0:
+        while restoActual >= valor and reservaMonedas[i] > 0:
             monedasDevueltas.append(valor)
-            resto = (resto - valor)
             reservaMonedas[i] -= 1
+            restoActual = round(restoActual - valor, 2)
 
-    if resto > 0:
+    if restoActual > 0:
         print("Devolviendo dinero. No hay cambio")
         devolverMonedas(monedasDevueltas)
     else:
